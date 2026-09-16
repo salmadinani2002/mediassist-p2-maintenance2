@@ -1,0 +1,517 @@
+/* ==========================================================================
+   MediAssist — Design system "moniteur clinique"
+   ========================================================================== */
+
+:root {
+  --bg: #eef2f5;
+  --surface: #ffffff;
+  --surface-alt: #e7edf1;
+  --sidebar: #0b1826;
+  --sidebar-line: #1c2c3e;
+  --sidebar-ink: #94a7b8;
+
+  --ink: #101f30;
+  --ink-soft: #55697c;
+  --ink-faint: #8698a8;
+  --border: #dbe3ea;
+  --border-soft: #e7edf1;
+
+  --accent: #0e7c86;
+  --accent-ink: #075a62;
+  --accent-soft: #dff0ef;
+
+  --critical: #c93f3f;
+  --critical-soft: #fbe8e6;
+  --critical-ink: #9c2f2f;
+
+  --warning: #c9821a;
+  --warning-soft: #fbf0dd;
+  --warning-ink: #96620f;
+
+  --stable: #2f8f5b;
+  --stable-soft: #e4f4ea;
+  --stable-ink: #21713f;
+
+  --info: #2f6fa6;
+  --info-soft: #e5eff8;
+  --info-ink: #235684;
+
+  --font-display: "Space Grotesk", "Inter", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", "SFMono-Regular", Menlo, monospace;
+
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow-card: 0 1px 2px rgba(16, 31, 48, 0.04), 0 8px 20px -12px rgba(16, 31, 48, 0.12);
+  --shadow-pop: 0 12px 32px -8px rgba(16, 31, 48, 0.22);
+  --sidebar-w: 230px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 { font-family: var(--font-display); color: var(--ink); margin: 0 0 8px; letter-spacing: -0.01em; }
+h1 { font-size: 28px; font-weight: 600; }
+h2 { font-size: 17px; font-weight: 600; margin-top: 28px; }
+p { color: var(--ink-soft); line-height: 1.55; margin: 0 0 8px; }
+a { color: inherit; }
+
+button, input, select, textarea { font-family: var(--font-body); font-size: 14px; }
+table { border-collapse: collapse; width: 100%; }
+
+/* -------------------------------------------------------------------- */
+/* Layout                                                                 */
+/* -------------------------------------------------------------------- */
+
+.app-shell { display: flex; min-height: 100vh; }
+.app-main { flex: 1; min-width: 0; padding: 36px 40px 64px; }
+
+/* -------------------------------------------------------------------- */
+/* Sidebar                                                                */
+/* -------------------------------------------------------------------- */
+
+.sidebar {
+  width: var(--sidebar-w);
+  flex-shrink: 0;
+  background: var(--sidebar);
+  color: var(--sidebar-ink);
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 24px 20px;
+  border-bottom: 1px solid var(--sidebar-line);
+}
+
+.sidebar-brand-mark {
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  background: linear-gradient(155deg, var(--accent) 0%, #0a5a62 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.sidebar-brand-mark svg { width: 17px; height: 17px; stroke: #eafffb; }
+
+.sidebar-brand h2 {
+  font-size: 15px;
+  color: #fff;
+  margin: 0;
+  font-weight: 600;
+}
+
+.sidebar-nav {
+  padding: 16px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.sidebar-nav a {
+  display: block;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  color: var(--sidebar-ink);
+  font-size: 14px;
+  font-weight: 500;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.sidebar-nav a:hover { background: rgba(255, 255, 255, 0.06); color: #fff; }
+.sidebar-nav a.active { background: rgba(14, 124, 134, 0.24); color: #fff; }
+
+.sidebar-foot {
+  margin-top: auto;
+  padding: 16px 20px 22px;
+  border-top: 1px solid var(--sidebar-line);
+}
+
+.pulse-line { width: 80px; height: 13px; display: block; }
+.pulse-line path { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.sidebar-foot .pulse-line path { stroke: #2c4a52; }
+
+/* -------------------------------------------------------------------- */
+/* En-têtes de page                                                       */
+/* -------------------------------------------------------------------- */
+
+.dashboard > h1,
+.incidents-page > h1,
+.tickets-page > h1,
+.interventions-page > h1,
+.statistics-page > h1,
+.analyse-page > h1 {
+  font-size: 30px;
+}
+
+.dashboard > p:first-of-type,
+.incidents-page > p:first-of-type,
+.tickets-page > p:first-of-type,
+.interventions-page > p:first-of-type,
+.statistics-page > p:first-of-type,
+.analyse-page > p:first-of-type {
+  font-size: 15px;
+  margin-bottom: 24px;
+}
+
+/* -------------------------------------------------------------------- */
+/* Cartes indicateurs                                                     */
+/* -------------------------------------------------------------------- */
+
+.stats-grid, .statistics-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+  margin-bottom: 8px;
+}
+
+.stat-card {
+  background: var(--surface);
+  padding: 18px 20px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border-soft);
+  box-shadow: var(--shadow-card);
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px; height: 100%;
+  background: var(--accent);
+  opacity: 0.75;
+}
+
+.stat-card h3 {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 8px;
+}
+
+.stat-card p {
+  font-family: var(--font-mono);
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--ink);
+  margin: 0;
+  line-height: 1;
+}
+
+/* -------------------------------------------------------------------- */
+/* Alertes                                                                */
+/* -------------------------------------------------------------------- */
+
+.alerts-section, .statistics-alerts, .indicators-section,
+.problematic-equipment-section, .frequent-problems-section,
+.priority-ranking-section, .trends-section, .anomalies-section {
+  margin-top: 24px;
+}
+
+.alert {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 18px;
+  margin-bottom: 8px;
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-left: 3px solid var(--info);
+  font-size: 14px;
+  color: var(--ink);
+}
+
+.alert-warning { border-left-color: var(--warning); }
+.alert-info { border-left-color: var(--info); }
+.alert-success { border-left-color: var(--stable); }
+
+.alert-card {
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-left: 3px solid var(--critical);
+  border-radius: var(--radius-sm);
+  padding: 14px 18px;
+  margin-bottom: 10px;
+}
+
+/* -------------------------------------------------------------------- */
+/* Messages d'état                                                        */
+/* -------------------------------------------------------------------- */
+
+.error-message {
+  background: var(--critical-soft);
+  color: var(--critical-ink);
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 13.5px;
+  margin: 12px 0;
+  border-left: 3px solid var(--critical);
+}
+
+.success-message {
+  background: var(--stable-soft);
+  color: var(--stable-ink);
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 13.5px;
+  margin: 12px 0;
+  border-left: 3px solid var(--stable);
+}
+
+/* -------------------------------------------------------------------- */
+/* Formulaires (incident-form, intervention-form, ticket-form, filtres)  */
+/* -------------------------------------------------------------------- */
+
+.incident-form, .intervention-form, .ticket-form, .ticket-create-section {
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  padding: 22px 24px;
+  margin: 16px 0 24px;
+}
+
+.form-group { margin-bottom: 14px; display: flex; flex-direction: column; gap: 6px; }
+
+label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+input, select, textarea {
+  padding: 9px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--ink);
+  width: 100%;
+}
+
+textarea { min-height: 70px; resize: vertical; }
+input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent); }
+
+.filter-section, .statistics-filters {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.filter-section label, .statistics-filters label { margin: 0; white-space: nowrap; }
+.filter-section select, .statistics-filters select { width: auto; min-width: 160px; }
+
+/* -------------------------------------------------------------------- */
+/* Boutons                                                                */
+/* -------------------------------------------------------------------- */
+
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 9px 16px;
+  font-weight: 600;
+  font-size: 13.5px;
+  background: var(--accent);
+  color: #fff;
+  transition: background 0.15s ease, transform 0.05s ease;
+  margin-right: 6px;
+}
+
+button:last-child { margin-right: 0; }
+button:hover { background: var(--accent-ink); }
+button:active { transform: translateY(1px); }
+
+button[type="button"] {
+  background: var(--surface);
+  color: var(--ink-soft);
+  border: 1px solid var(--border);
+}
+
+button[type="button"]:hover { background: var(--surface-alt); color: var(--ink); }
+
+table button { padding: 6px 12px; font-size: 12.5px; }
+
+/* Dernier bouton d'une cellule d'actions = généralement "Supprimer"/"Clôturer" */
+td button:nth-last-child(1):not(:first-child) {
+  background: var(--critical-soft);
+  color: var(--critical-ink);
+  border: none;
+}
+td button:nth-last-child(1):not(:first-child):hover {
+  background: var(--critical);
+  color: #fff;
+}
+
+/* -------------------------------------------------------------------- */
+/* Tableaux                                                               */
+/* -------------------------------------------------------------------- */
+
+table {
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--border-soft);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  font-size: 13.5px;
+  margin-top: 12px;
+}
+
+thead tr { background: var(--surface-alt); }
+
+th {
+  text-align: left;
+  padding: 12px 14px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ink-faint);
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+td {
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--border-soft);
+  color: var(--ink);
+  vertical-align: top;
+}
+
+tbody tr:last-child td { border-bottom: none; }
+tbody tr:hover { background: var(--surface-alt); }
+
+td:first-child { font-family: var(--font-mono); color: var(--ink-faint); }
+
+/* -------------------------------------------------------------------- */
+/* Cartes tickets                                                         */
+/* -------------------------------------------------------------------- */
+
+.tickets-list, .tickets-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 14px;
+  margin-top: 12px;
+}
+
+.ticket-card {
+  background: var(--surface);
+  padding: 18px 20px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border-soft);
+  box-shadow: var(--shadow-card);
+}
+
+.ticket-card h3 {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--ink-faint);
+  margin-bottom: 10px;
+}
+
+.ticket-actions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+
+/* -------------------------------------------------------------------- */
+/* Historique / commentaires                                              */
+/* -------------------------------------------------------------------- */
+
+.history-list { margin-top: 10px; display: flex; flex-direction: column; gap: 10px; }
+
+.history-item {
+  background: var(--surface-alt);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-size: 13px;
+}
+
+.history-item hr { border: none; border-top: 1px solid var(--border); margin: 8px 0; }
+.history-item small { color: var(--ink-faint); font-family: var(--font-mono); font-size: 11px; }
+
+/* -------------------------------------------------------------------- */
+/* Graphiques                                                             */
+/* -------------------------------------------------------------------- */
+
+.charts-section, .statistics-charts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.chart-card {
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  padding: 18px 20px 6px;
+}
+
+.chart-card h2 {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 0 4px;
+  color: var(--ink);
+}
+
+/* -------------------------------------------------------------------- */
+/* Modale (édition incident/ticket)                                       */
+/* -------------------------------------------------------------------- */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(16, 31, 48, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  padding: 20px;
+}
+
+.modal-content {
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-pop);
+  padding: 26px 28px;
+  width: 100%;
+  max-width: 440px;
+  max-height: 88vh;
+  overflow-y: auto;
+}
+
+.modal-actions { display: flex; gap: 10px; margin-top: 16px; }
+
+/* -------------------------------------------------------------------- */
+/* Responsive                                                             */
+/* -------------------------------------------------------------------- */
+
+@media (max-width: 720px) {
+  .app-shell { flex-direction: column; }
+  .sidebar { width: 100%; height: auto; position: relative; }
+  .sidebar-nav { flex-direction: row; overflow-x: auto; }
+  .app-main { padding: 22px 16px 40px; }
+  .stats-grid, .statistics-cards { grid-template-columns: 1fr; }
+}
